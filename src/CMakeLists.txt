@@ -1,6 +1,5 @@
 set(SOURCES
   ${PROJECT_SOURCE_DIR}/src/converter.cpp
-  ${PROJECT_SOURCE_DIR}/src/hevc_manager.cpp
 )
 
 add_library(
