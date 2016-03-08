@@ -9,7 +9,13 @@
 #include "converter.h"
 #include "define.h"
 
-static inline auto adjust(const std::string& chapter, uint64_t correctTime, uint32_t roundUp) -> std::string {
+#if defined(UNICODE) || defined(_UNICODE)
+  #define _tmain	wmain
+#else
+  #define _tmain	main
+#endif
+
+static inline auto adjust(const std::string& chapter, uint64_t correctTime, uint32_t roundUp) {
 	std::regex pattern(u8"([0-9]{2}:[0-5][0-9]:[0-5][0-9].[0-9]{3})");
 	std::smatch match;
 
@@ -21,7 +27,7 @@ static inline auto adjust(const std::string& chapter, uint64_t correctTime, uint
 	return chapter;
 }
 
-static auto adjustChapter(const flowTumn::tstr& source, uint64_t correctTime, uint32_t roundUp) -> std::string {
+static auto adjustChapter(const flowTumn::tstr& source, uint64_t correctTime, uint32_t roundUp) {
 	std::ifstream iif(source);
 	std::ostringstream ss;
 
@@ -35,27 +41,27 @@ static auto adjustChapter(const flowTumn::tstr& source, uint64_t correctTime, ui
 		return ss.str();
 	}
 
-	return "";
+	return std::string{""};
 }
 
-void setParam(uint64_t& dest, std::string v) {
-	dest = std::atoll(v.data());
+void setParam(uint64_t& dest, flowTumn::tstr v) {
+	dest = flowTumn::toUint64(v);
 }
 
-void setParam(uint32_t& dest, std::string v) {
-	dest = std::atol(v.data());
+void setParam(uint32_t& dest, flowTumn::tstr v) {
+	dest = flowTumn::toUint32(v);
 }
 
-void setParam(std::string& dest, std::string v) {
+void setParam(flowTumn::tstr& dest, flowTumn::tstr v) {
 	dest = std::move(v);
 }
 
 template <typename T>
-void setParam(T& dest, std::string v) {
+void setParam(T& dest, flowTumn::tstr v) {
 	setParam(dest, v);
 }
 
-using CommandLineValues = std::tuple <std::string, std::function <void(std::string)> >;
+using CommandLineValues = std::tuple <std::string, std::function <void(flowTumn::tstr)> >;
 
 template <typename T>
 CONSTEXPR auto createCommandLineValues(const std::string& key, T& dest) {
@@ -65,11 +71,11 @@ CONSTEXPR auto createCommandLineValues(const std::string& key, T& dest) {
 	};
 }
 
-int main(int argc, flowTumn::tstr::value_type ** argv) {
+int _tmain(int argc, flowTumn::tstr::value_type** argv) {
 	uint64_t correctTime = 0;
 	uint32_t roundUp = 0;
-	std::string source;
-	std::string dest;
+	flowTumn::tstr source;
+	flowTumn::tstr dest;
 
 	std::array <CommandLineValues, 4> commandLine{
 		createCommandLineValues("--chapter_file", source),
@@ -79,8 +85,9 @@ int main(int argc, flowTumn::tstr::value_type ** argv) {
 	};
 
 	for (decltype(argc) i = 1; i < argc; ++i) {
+		auto s = flowTumn::tstr(argv[i]);
 		for (auto& each : commandLine) {
-			if (std::string(argv[i]) == std::get <0>(each)) {
+			if (flowTumn::tstr(argv[i]) == flowTumn::conv(std::get <0> (each))) {
 				if (i + 1 < argc) {
 					std::get <1>(each)(argv[i + 1]);
 					++i;
@@ -100,7 +107,7 @@ int main(int argc, flowTumn::tstr::value_type ** argv) {
 				ofs << result;
 			}
 			else {
-				std::cerr << "output error: " << dest << std::endl;
+				std::wcerr << _T("output error: ") << dest << std::endl;
 			}
 		}
 	}
