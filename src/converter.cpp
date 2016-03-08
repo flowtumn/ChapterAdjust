@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cmath>
+#include <stdexcept>
 
 /**
  * 0のパディング埋め、文字列に変換。
