@@ -61,7 +61,6 @@ void testConverter() {
 }
 
 static const std::vector <std::function<void()> > TESTS{
-	&testHevcManager,
 	&testConverter,
 };
 

@@ -8,7 +8,6 @@
 
 #include "converter.h"
 #include "define.h"
-#include "hevc_manager.h"
 
 static inline auto adjust(const std::string& chapter, uint64_t correctTime, uint32_t roundUp) -> std::string {
 	std::regex pattern(u8"([0-9]{2}:[0-5][0-9]:[0-5][0-9].[0-9]{3})");
@@ -67,19 +66,15 @@ CONSTEXPR auto createCommandLineValues(const std::string& key, T& dest) {
 }
 
 int main(int argc, flowTumn::tstr::value_type ** argv) {
-	flowTumn::HevcSetting setting;
 	uint64_t correctTime = 0;
 	uint32_t roundUp = 0;
 	std::string source;
 	std::string dest;
 
-	std::array <CommandLineValues, 7> commandLine{
+	std::array <CommandLineValues, 4> commandLine{
 		createCommandLineValues("--chapter_file", source),
 		createCommandLineValues("--correction_time", correctTime),
 		createCommandLineValues("--roundup_time", roundUp),
-		createCommandLineValues("--muxer_path", setting.muxerPath),
-		createCommandLineValues("--remuxer_path", setting.remuxerPath),
-		createCommandLineValues("--timeline_path", setting.timeLinePath),
 		createCommandLineValues("--output_file", dest),
 	};
 
