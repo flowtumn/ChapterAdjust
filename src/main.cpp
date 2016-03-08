@@ -11,8 +11,10 @@
 
 #if defined(UNICODE) || defined(_UNICODE)
   #define _tmain	wmain
+  #define err		std::wcerr
 #else
   #define _tmain	main
+  #define err		std::cerr
 #endif
 
 static inline auto adjust(const std::string& chapter, uint64_t correctTime, uint32_t roundUp) {
@@ -77,12 +79,12 @@ int _tmain(int argc, flowTumn::tstr::value_type** argv) {
 	flowTumn::tstr source;
 	flowTumn::tstr dest;
 
-	std::array <CommandLineValues, 4> commandLine{
+	std::array <CommandLineValues, 4> commandLine{ {
 		createCommandLineValues("--chapter_file", source),
 		createCommandLineValues("--correction_time", correctTime),
 		createCommandLineValues("--roundup_time", roundUp),
 		createCommandLineValues("--output_file", dest),
-	};
+	} };
 
 	for (decltype(argc) i = 1; i < argc; ++i) {
 		auto s = flowTumn::tstr(argv[i]);
@@ -107,7 +109,7 @@ int _tmain(int argc, flowTumn::tstr::value_type** argv) {
 				ofs << result;
 			}
 			else {
-				std::wcerr << _T("output error: ") << dest << std::endl;
+				err << _T("output error: ") << dest << std::endl;
 			}
 		}
 	}

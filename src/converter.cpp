@@ -2,6 +2,7 @@
 
 #include <array>
 #include <algorithm>
+#include <cstdlib>
 #include <cmath>
 
 /**
@@ -20,8 +21,6 @@ static auto padding(int64_t v, int32_t digit) -> std::string {
 static auto convTimeStr(int64_t t) -> std::string {
     return padding(t, 2);
 }
-
-static auto convTimeStr() -> std::string { return ""; }
 
 template <typename ... Args>
 static auto convTimeStr(int64_t elem, Args ... args) -> std::string {
@@ -50,7 +49,7 @@ auto flowTumn::converter::correctionChapterTime(std::string t, uint64_t millis, 
 }
 
 auto flowTumn::converter::convertChapterTimeStr2Integer(std::string t)->int64_t {
-	static std::array <char, 2> trim{ ':', '.' };
+	static std::array <char, 2> trim = { {':', '.'} };
 
 	std::for_each(
 		std::begin(trim),

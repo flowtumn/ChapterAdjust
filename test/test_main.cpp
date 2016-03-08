@@ -60,12 +60,7 @@ void testConverter() {
 	);
 }
 
-static const std::vector <std::function<void()> > TESTS{
-	&testConverter,
-};
 
 int main() {
-	for (auto&& each : TESTS) {
-		each();
-	}
+	testConverter();
 }
