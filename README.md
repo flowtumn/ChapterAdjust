@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/flowtumn/ChapterAdjust.svg?branch=master)] [![Build Status](https://travis-ci.org/flowtumn/ChapterAdjust.svg?branch=develop)]
+
 MP4やMKVといった、動画に埋め込むチャプターファイルの
 
 時間を整えるプログラムです。
@@ -44,5 +46,3 @@ CHAPTER05=00:24:00.100
 CHAPTER05NAME=Next
 
 ```
-
-[![Build Status](https://travis-ci.org/flowtumn/ChapterAdjust.svg?branch=master)] [![Build Status](https://travis-ci.org/flowtumn/ChapterAdjust.svg?branch=develop)]
