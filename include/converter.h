@@ -1,4 +1,4 @@
-﻿#ifndef CONVERTER_H_INCLUDE
+#ifndef CONVERTER_H_INCLUDE
 #define CONVERTER_H_INCLUDE
 
 #include <cstdint>

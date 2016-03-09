@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/flowtumn/ChapterAdjust.svg?branch=master)] [![Build Status](https://travis-ci.org/flowtumn/ChapterAdjust.svg?branch=develop)]
+[![Build Status](https://travis-ci.org/flowtumn/ChapterAdjust.svg?branch=master)](https://travis-ci.org/flowtumn/ChapterAdjust)
+[![Build Status](https://travis-ci.org/flowtumn/ChapterAdjust.svg?branch=develop)](https://travis-ci.org/flowtumn/ChapterAdjust)
+
+##
 
 MP4やMKVといった、動画に埋め込むチャプターファイルの
 

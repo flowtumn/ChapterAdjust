@@ -1,4 +1,4 @@
-﻿#include <array>
+#include <array>
 #include <iostream>
 #include <tuple>
 #include <functional>
@@ -46,30 +46,35 @@ static auto adjustChapter(const flowTumn::tstr& source, uint64_t correctTime, ui
 	return std::string{""};
 }
 
-void setParam(uint64_t& dest, flowTumn::tstr v) {
+void setParam(uint64_t& dest, const flowTumn::tstr& v) {
 	dest = flowTumn::toUint64(v);
 }
 
-void setParam(uint32_t& dest, flowTumn::tstr v) {
+void setParam(uint32_t& dest, const flowTumn::tstr& v) {
 	dest = flowTumn::toUint32(v);
 }
 
-void setParam(flowTumn::tstr& dest, flowTumn::tstr v) {
-	dest = std::move(v);
+void setParam(flowTumn::tstr& dest, const flowTumn::tstr& v) {
+	dest = v;
 }
 
 template <typename T>
-void setParam(T& dest, flowTumn::tstr v) {
+void setParam(T& dest, const flowTumn::tstr& v) {
 	setParam(dest, v);
 }
 
-using CommandLineValues = std::tuple <std::string, std::function <void(flowTumn::tstr)> >;
+using CommandLineValues = std::tuple <
+	std::string,
+	std::function <void(flowTumn::tstr)>,
+	std::string		// description.
+>;
 
 template <typename T>
-CONSTEXPR auto createCommandLineValues(const std::string& key, T& dest) {
+CONSTEXPR auto createCommandLineValues(const std::string& key, T& dest, const std::string& desc) {
 	return CommandLineValues{
 		key,
-		std::bind(setParam <T>, std::ref(dest), std::placeholders::_1)
+		std::bind(setParam <T>, std::ref(dest), std::placeholders::_1),
+		desc
 	};
 }
 
@@ -80,11 +85,18 @@ int _tmain(int argc, flowTumn::tstr::value_type** argv) {
 	flowTumn::tstr dest;
 
 	std::array <CommandLineValues, 4> commandLine{ {
-		createCommandLineValues("--chapter_file", source),
-		createCommandLineValues("--correction_time", correctTime),
-		createCommandLineValues("--roundup_time", roundUp),
-		createCommandLineValues("--output_file", dest),
+		createCommandLineValues("--chapter_file",		source,			"[source file]"),
+		createCommandLineValues("--correction_time",	correctTime,	"[timeMillis]"),
+		createCommandLineValues("--roundup_time",		roundUp,		"[roundup(min:0, max:9)]"),
+		createCommandLineValues("--output_file",		dest,			"[convert output file]"),
 	} };
+
+	if (2 > argc) {
+		for (auto& each: commandLine) {
+			std::cout << std::get <0> (each) << ": " << std::get <2> (each) << std::endl;
+		}
+		return 0;
+	}
 
 	for (decltype(argc) i = 1; i < argc; ++i) {
 		auto s = flowTumn::tstr(argv[i]);
