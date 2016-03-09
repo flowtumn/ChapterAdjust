@@ -1,5 +1,6 @@
 ﻿#include <cassert>
 #include <functional>
+#include <stdexcept>
 #include <vector>
 
 #include "converter.h"
